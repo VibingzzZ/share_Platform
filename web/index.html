@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>组织工作台</title>
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <header class="topbar"><a class="brand" href="#">SHARE <span>Platform</span></a><nav><a href="#resources">资源</a><a href="#posts">开发日志</a><a href="#ai-lab">AI 实验室</a></nav><div class="top-actions"><input id="search" type="search" placeholder="搜索资源与文章"><button id="customize" class="icon-button" aria-label="自定义页面">调整布局</button></div></header>
+  <main class="shell">
+    <section class="intro"><div><p class="eyebrow">INTERNAL KNOWLEDGE HUB</p><h1>组织的知识，在这里持续生长。</h1><p>资源、开发过程与 AI 实验统一沉淀，按自己的工作习惯组织工作台。</p></div><div class="pulse"><b id="resource-count">0</b><span>已沉淀资源</span><b id="post-count">0</b><span>开发记录</span></div></section>
+    <section id="overview" class="overview module"><div><p class="section-label">本周概览</p><h2>保持同步，快速进入工作。</h2></div><div class="quick"><a href="#resources">浏览资源库 <strong>→</strong></a><a href="#posts">查看最近发布 <strong>→</strong></a><a href="#ai-lab">探索 AI 产品 <strong>→</strong></a></div></section>
+    <section id="resources" class="module"><div class="section-head"><div><p class="section-label">资源库</p><h2>最近加入</h2></div><a href="#">全部资源 →</a></div><div id="resource-list" class="resource-grid"></div></section>
+    <section id="posts" class="module split"><div><div class="section-head"><div><p class="section-label">开发日志</p><h2>正在发生的事</h2></div><a href="#">全部文章 →</a></div><div id="post-list" class="post-list"></div></div><aside class="notice"><p class="section-label">贡献入口</p><h3>有值得分享的内容？</h3><p>把开发经验、可复用资源和有趣实验沉淀到组织空间。</p><button>提交内容</button></aside></section>
+    <section id="ai-lab" class="module"><div class="section-head"><div><p class="section-label">AI 实验室</p><h2>组织正在试用的产品</h2></div><a href="#">产品目录 →</a></div><div id="ai-list" class="ai-grid"></div></section>
+  </main>
+  <dialog id="drawer"><form method="dialog"><div class="drawer-head"><div><p class="section-label">PAGE DIY</p><h2>调整你的工作台</h2></div><button aria-label="关闭">×</button></div><div id="module-settings" class="settings"></div><label>内容密度<select id="density"><option value="comfortable">舒适</option><option value="compact">紧凑</option></select></label><label>界面主题<select id="theme"><option value="light">浅色</option><option value="dark">深色</option></select></label><menu><button id="save-layout" value="default">保存布局</button></menu></form></dialog>
+  <script type="module" src="/static/app.js"></script>
+</body>
+</html>

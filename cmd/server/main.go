@@ -26,10 +26,11 @@ func main() {
 		return
 	}
 	defer pool.Close()
-	server := &http.Server{Addr: cfg.Address, Handler: apphttp.NewRouter(cfg, apphttp.Dependencies{
+	router := apphttp.NewRouter(cfg, apphttp.Dependencies{
 		Content: repository.NewContent(pool),
 		Layout:  repository.NewLayout(pool),
-	})}
+	})
+	server := &http.Server{Addr: cfg.Address, Handler: staticHandler(router)}
 
 	go func() {
 		slog.Info("server listening", "address", cfg.Address)
@@ -45,4 +46,21 @@ func main() {
 	if err := server.Shutdown(shutdownCtx); err != nil {
 		slog.Error("graceful shutdown failed", "error", err)
 	}
+}
+
+func staticHandler(api http.Handler) http.Handler {
+	files := http.FileServer(http.Dir("web"))
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/" {
+			r.URL.Path = "/index.html"
+			files.ServeHTTP(w, r)
+			return
+		}
+		if len(r.URL.Path) > 8 && r.URL.Path[:8] == "/static/" {
+			r.URL.Path = r.URL.Path[7:]
+			files.ServeHTTP(w, r)
+			return
+		}
+		api.ServeHTTP(w, r)
+	})
 }
