@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
@@ -49,18 +50,15 @@ func main() {
 }
 
 func staticHandler(api http.Handler) http.Handler {
-	files := http.FileServer(http.Dir("web"))
+	files := http.FileServer(http.Dir("web/dist"))
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if strings.HasPrefix(r.URL.Path, "/api/") {
+			api.ServeHTTP(w, r)
+			return
+		}
 		if r.URL.Path == "/" {
 			r.URL.Path = "/index.html"
-			files.ServeHTTP(w, r)
-			return
 		}
-		if len(r.URL.Path) > 8 && r.URL.Path[:8] == "/static/" {
-			r.URL.Path = r.URL.Path[7:]
-			files.ServeHTTP(w, r)
-			return
-		}
-		api.ServeHTTP(w, r)
+		files.ServeHTTP(w, r)
 	})
 }
